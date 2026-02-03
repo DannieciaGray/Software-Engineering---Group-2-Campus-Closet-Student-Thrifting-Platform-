@@ -1,0 +1,2 @@
+# Software-Engineering---Group-2-Campus-Closet-Student-Thrifting-Platform-
+This repository contains the full development and documentation for a Software Engineering course project built using an iterative, sprint-based approach. It includes system design artifacts, use cases and requirements, database design, and full-stack implementation with integrated user management and database functionality.
