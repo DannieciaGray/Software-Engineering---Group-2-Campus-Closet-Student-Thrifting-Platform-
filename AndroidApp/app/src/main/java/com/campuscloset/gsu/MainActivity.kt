@@ -20,20 +20,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         val db = AppDatabase.getInstance(this)
 
-        lifecycleScope.launch(Dispatchers.IO) {
-            db.userDao().clearUsers()
 
-            db.userDao().insertUser(
-                User(
-                    name = "Test User",
-                    email = "test@gsu.edu",
-                    passwordHash = "123"
-                )
-            )
-
-            val found = db.userDao().getUserByEmail("test@gsu.edu")
-            Log.d("ROOM_TEST", "FOUND USER: $found")
-        }
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())

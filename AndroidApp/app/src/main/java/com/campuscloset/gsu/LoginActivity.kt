@@ -11,7 +11,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import com.campuscloset.gsu.data.AppDatabase
-import com.campuscloset.gsu.data.User
+
+
 
 
 class LoginActivity : AppCompatActivity() {
@@ -22,30 +23,23 @@ class LoginActivity : AppCompatActivity() {
 
         val db = AppDatabase.getInstance(this)
 
-        lifecycleScope.launch(Dispatchers.IO) {
-            db.userDao().clearUsers()
-
-            db.userDao().insertUser(
-                User(
-                    name = "Test User",
-                    email = "test@gsu.edu",
-                    passwordHash = "1234"
-                )
-            )
-        }
-
 
         val etEmail = findViewById<EditText>(R.id.etEmail)
         val etPassword = findViewById<EditText>(R.id.etPassword)
         val btnLogin = findViewById<Button>(R.id.btnLogin)
 
+        val btnGoRegister = findViewById<Button>(R.id.btnGoRegister)
+        btnGoRegister.setOnClickListener {
+            startActivity(Intent(this, RegisterActivity::class.java))
+        }
+
 
         btnLogin.setOnClickListener {
             val email = etEmail.text.toString().trim()
-            val password = etPassword.text.toString()
+            val password = etPassword.text.toString().trim()
 
             if (email.isEmpty() || password.isEmpty()) {
-                Toast.makeText(this, "Enter email + password", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Please enter email and password", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
@@ -54,15 +48,18 @@ class LoginActivity : AppCompatActivity() {
 
                 withContext(Dispatchers.Main) {
                     if (user == null) {
-                        Toast.makeText(this@LoginActivity, "No account for that email", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@LoginActivity, "No account found", Toast.LENGTH_SHORT).show()
                     } else if (user.passwordHash != password) {
                         Toast.makeText(this@LoginActivity, "Wrong password", Toast.LENGTH_SHORT).show()
                     } else {
+                        // success -> go to MainActivity
                         startActivity(Intent(this@LoginActivity, MainActivity::class.java))
                         finish()
                     }
                 }
             }
         }
+
+
     }
 }
