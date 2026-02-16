@@ -11,14 +11,58 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import com.campuscloset.gsu.data.AppDatabase
 import com.campuscloset.gsu.data.User
+import android.content.Intent
+import android.widget.Button
+import android.widget.TextView
+
+
+
 
 
 class MainActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
+
+        val tvWelcome = findViewById<TextView>(R.id.tvWelcome)
+        val btnLogout = findViewById<Button>(R.id.btnLogout)
+
+
+        btnLogout.setOnClickListener {
+            getSharedPreferences("session", MODE_PRIVATE)
+                .edit()
+                .clear()
+                .apply()
+
+            startActivity(Intent(this, LoginActivity::class.java))
+            finish()
+        }
+
         val db = AppDatabase.getInstance(this)
+
+
+        val prefs = getSharedPreferences("session", MODE_PRIVATE)
+        val userId = prefs.getInt("userId", -1)
+
+        lifecycleScope.launch {
+            val user = db.userDao().getUserById(userId)
+            if (user != null) {
+                tvWelcome.text = "Welcome, ${user.name}"
+            }
+        }
+
+        btnLogout.setOnClickListener {
+            getSharedPreferences("session", MODE_PRIVATE)
+                .edit()
+                .clear()
+                .apply()
+
+            startActivity(Intent(this, LoginActivity::class.java))
+            finish()
+        }
+
 
 
 
@@ -28,5 +72,7 @@ class MainActivity : AppCompatActivity() {
             insets
         }
     }
+
 }
+
 

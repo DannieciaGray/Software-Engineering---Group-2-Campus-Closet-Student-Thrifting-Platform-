@@ -19,6 +19,13 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val prefs = getSharedPreferences("session", MODE_PRIVATE)
+        if (prefs.contains("userId")) {
+            startActivity(Intent(this, MainActivity::class.java))
+            finish()
+            return
+        }
+
         setContentView(R.layout.activity_login)
 
         val db = AppDatabase.getInstance(this)
@@ -52,6 +59,11 @@ class LoginActivity : AppCompatActivity() {
                     } else if (user.passwordHash != password) {
                         Toast.makeText(this@LoginActivity, "Wrong password", Toast.LENGTH_SHORT).show()
                     } else {
+                        getSharedPreferences("session", MODE_PRIVATE)
+                            .edit()
+                            .putInt("userId", user.userId) // change to user.userId if your field is userId
+                            .apply()
+
                         // success -> go to MainActivity
                         startActivity(Intent(this@LoginActivity, MainActivity::class.java))
                         finish()

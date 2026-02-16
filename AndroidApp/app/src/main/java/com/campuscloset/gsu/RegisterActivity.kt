@@ -36,6 +36,12 @@ class RegisterActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
+            if (!email.endsWith("@student.gsu.edu")) {
+                Toast.makeText(this, "Must use your student.gsu.edu email", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+
             lifecycleScope.launch(Dispatchers.IO) {
                 val existing = db.userDao().getUserByEmail(email)
 

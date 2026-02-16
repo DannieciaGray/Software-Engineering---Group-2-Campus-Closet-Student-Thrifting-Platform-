@@ -40,7 +40,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="24dp"
-        android:layout_marginHorizontal="24dp"/>
+        android:layout_marginHorizontal="24dp"
+        android:backgroundTint="@color/gsu_blue"/>
+
 
     <Button
         android:id="@+id/btnGoRegister"
@@ -51,7 +53,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="12dp"
-        android:layout_marginHorizontal="24dp"/>
+        android:layout_marginHorizontal="24dp"
+        android:backgroundTint="@color/gsu_blue"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
