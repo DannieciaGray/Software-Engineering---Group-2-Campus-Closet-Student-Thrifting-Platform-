@@ -37,12 +37,14 @@ This project is being developed as part of a Software Engineering course and fol
 
 Table: Users
 
-Attribute	Type	Description
-userId	Int (Primary Key)	Auto-generated unique ID
-name	String	Student name
-email	String	University email (unique)
-password	String	Stored password
-role	String	User role
+| Attribute | Type              | Description               |
+| --------- | ----------------- | ------------------------- |
+| userId    | Int (Primary Key) | Auto-generated unique ID  |
+| name      | String            | Student name              |
+| email     | String            | University email (unique) |
+| password  | String            | Stored password           |
+| role      | String            | User role                 |
+
 
 Database Management System: SQLite (implemented using Room)
 
