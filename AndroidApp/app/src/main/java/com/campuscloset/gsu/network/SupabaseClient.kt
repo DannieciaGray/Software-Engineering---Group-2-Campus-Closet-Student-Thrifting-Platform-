@@ -28,7 +28,7 @@ object SupabaseClient {
         .build()
 
     private val retrofit = Retrofit.Builder()
-        .baseUrl(BuildConfig.SUPABASE_URL + "rest/v1/")
+        .baseUrl(BuildConfig.SUPABASE_URL + "/rest/v1/")
         .client(httpClient)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
