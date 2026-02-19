@@ -1,25 +1,23 @@
 package com.campuscloset.gsu
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import android.util.Log
 import androidx.lifecycle.lifecycleScope
+import com.campuscloset.gsu.network.SupabaseClient
+import com.campuscloset.gsu.network.SupabaseUserRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import com.campuscloset.gsu.data.AppDatabase
-import com.campuscloset.gsu.data.User
-import android.content.Intent
-import android.widget.Button
-import android.widget.TextView
-
-
-
-
+import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity() {
+
+    private val repo by lazy { SupabaseUserRepository(SupabaseClient.api) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,42 +27,26 @@ class MainActivity : AppCompatActivity() {
         val tvWelcome = findViewById<TextView>(R.id.tvWelcome)
         val btnLogout = findViewById<Button>(R.id.btnLogout)
 
-
         btnLogout.setOnClickListener {
-            getSharedPreferences("session", MODE_PRIVATE)
-                .edit()
-                .clear()
-                .apply()
-
+            getSharedPreferences("session", MODE_PRIVATE).edit().clear().apply()
             startActivity(Intent(this, LoginActivity::class.java))
             finish()
         }
-
-        val db = AppDatabase.getInstance(this)
-
 
         val prefs = getSharedPreferences("session", MODE_PRIVATE)
         val userId = prefs.getInt("userId", -1)
 
-        lifecycleScope.launch {
-            val user = db.userDao().getUserById(userId)
-            if (user != null) {
-                tvWelcome.text = "Welcome, ${user.name}"
+        lifecycleScope.launch(Dispatchers.IO) {
+            try {
+                val user = repo.getUserById(userId)
+
+                withContext(Dispatchers.Main) {
+                    tvWelcome.text = if (user != null) "Welcome, ${user.name}" else "Welcome!"
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) { tvWelcome.text = "Welcome!" }
             }
         }
-
-        btnLogout.setOnClickListener {
-            getSharedPreferences("session", MODE_PRIVATE)
-                .edit()
-                .clear()
-                .apply()
-
-            startActivity(Intent(this, LoginActivity::class.java))
-            finish()
-        }
-
-
-
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -72,7 +54,4 @@ class MainActivity : AppCompatActivity() {
             insets
         }
     }
-
 }
-
-
