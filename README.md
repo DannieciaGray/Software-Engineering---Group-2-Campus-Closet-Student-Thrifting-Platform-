@@ -82,3 +82,18 @@ Future Sprints: Marketplace features, item listings, transaction flows
 
 Software Engineering Project
 Group: 2
+
+
+# How to Run the Application
+
+Open the project in Android Studio.
+
+Allow Gradle to sync.
+
+Run the application on an emulator or Android device.
+
+No database installation or configuration is required.
+The application connects to a hosted Supabase PostgreSQL database.
+
+
+You can create a test account ending in student.gsu.edu
