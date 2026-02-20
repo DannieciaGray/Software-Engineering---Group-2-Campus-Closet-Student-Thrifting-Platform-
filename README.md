@@ -62,18 +62,42 @@ Sprint Planning & Scheduling Documentation
 
 All diagrams follow standard UML conventions.
 
-## Running the Application
+### Running the System
+Prerequisites
 
-- Open the project in Android Studio
-- Allow Gradle to sync
-- Run the application on an emulator or physical Android device.
+- Java 11 or higher
+- Gradle (wrapper included in project)
+- Android SDK installed
 
-The application connects directly to a hosted Supabase PostgreSQL datbase.
-No database installation or setup is required.
+### Build Instructions
+This project uses the Gradle build system.
 
-To test the system, create an account using an email ending in:
+To build the project from the root directory:
+./gradlew build
 
-@student.gsu.edu
+### On Windows:
+gradlew.bat build
+
+### To generate a debug APK:
+./gradlew assembleDebug
+
+### The generated APK will be located in:
+app/build/outputs/apk/debug/
+
+Database Configuration
+- The system connects to a hosted Supabase PostgreSQL database.
+- Backend is cloud-hosted and requires no local database installation.
+
+Supabase Project URL: https://mqkevnprofrsrysciwxa.supabase.co
+
+### Authentication:
+- Public anon API key is embedded in the application build configuration.
+- No additional database setup is required.
+
+Running the Application
+- After building the project, install the generated APK on an Android device or emulator.
+- The application will automatically connect to the hosted Supabase database.
+- Users may create an account using a valid @student.gsu.edu email address.
 
 ## Development Approach
 
