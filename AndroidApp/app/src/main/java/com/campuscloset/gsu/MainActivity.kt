@@ -1,57 +1,64 @@
 package com.campuscloset.gsu
 
-import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
-import android.widget.TextView
-import androidx.activity.enableEdgeToEdge
+import android.view.MenuItem
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.lifecycle.lifecycleScope
-import com.campuscloset.gsu.network.SupabaseClient
-import com.campuscloset.gsu.network.SupabaseUserRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import com.campuscloset.gsu.ui.browse.BrowseFragment
+import com.campuscloset.gsu.ui.cart.CartFragment
+import com.campuscloset.gsu.viewmodel.CartViewModel
+import com.google.android.material.badge.BadgeDrawable
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.navigation.NavigationBarView
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListener {
 
-    private val repo by lazy { SupabaseUserRepository(SupabaseClient.api) }
+    private val cartViewModel: CartViewModel by viewModels()
+
+    private lateinit var bottomNav: BottomNavigationView
+    private var cartBadge: BadgeDrawable? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.activity_main)
 
-        val tvWelcome = findViewById<TextView>(R.id.tvWelcome)
-        val btnLogout = findViewById<Button>(R.id.btnLogout)
+        bottomNav = findViewById(R.id.bottomNavigation)
+        bottomNav.setOnItemSelectedListener(this)
 
-        btnLogout.setOnClickListener {
-            getSharedPreferences("session", MODE_PRIVATE).edit().clear().apply()
-            startActivity(Intent(this, LoginActivity::class.java))
-            finish()
+        if (savedInstanceState == null) {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fragmentContainer, BrowseFragment())
+                .commit()
         }
 
-        val prefs = getSharedPreferences("session", MODE_PRIVATE)
-        val userId = prefs.getInt("userId", -1)
+        cartBadge = bottomNav.getOrCreateBadge(R.id.navCart)
+        cartBadge?.isVisible = false
 
-        lifecycleScope.launch(Dispatchers.IO) {
-            try {
-                val user = repo.getUserById(userId)
-
-                withContext(Dispatchers.Main) {
-                    tvWelcome.text = if (user != null) "Welcome, ${user.name}" else "Welcome!"
-                }
-            } catch (e: Exception) {
-                withContext(Dispatchers.Main) { tvWelcome.text = "Welcome!" }
+        cartViewModel.cartCount.observe(this) { count ->
+            if (count > 0) {
+                cartBadge?.isVisible = true
+                cartBadge?.number = count
+            } else {
+                cartBadge?.isVisible = false
             }
         }
+    }
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.navBrowse -> {
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragmentContainer, BrowseFragment())
+                    .commit()
+                true
+            }
+            R.id.navCart -> {
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragmentContainer, CartFragment())
+                    .commit()
+                true
+            }
+            else -> false
         }
     }
 }

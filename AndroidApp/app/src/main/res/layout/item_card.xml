@@ -1,0 +1,15 @@
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_margin="6dp" app:cardCornerRadius="10dp" app:cardElevation="3dp">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical">
+        <!--  Item image  -->
+        <ImageView android:id="@+id/ivItemImage" android:layout_width="match_parent" android:layout_height="150dp" android:scaleType="centerCrop" android:contentDescription="Item image" android:src="@android:drawable/ic_menu_gallery"/>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="8dp">
+            <TextView android:id="@+id/tvItemTitle" android:layout_width="match_parent" android:layout_height="wrap_content" android:textSize="14sp" android:textStyle="bold" android:maxLines="2" android:ellipsize="end" android:text="Item Title"/>
+            <TextView android:id="@+id/tvItemPrice" android:layout_width="match_parent" android:layout_height="wrap_content" android:textSize="15sp" android:textColor="#2E7D32" android:textStyle="bold" android:layout_marginTop="2dp" android:text="$0.00"/>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="4dp">
+                <TextView android:id="@+id/tvCondition" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:textSize="11sp" android:textColor="#757575" android:text="Condition"/>
+                <TextView android:id="@+id/tvSize" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textSize="11sp" android:textColor="#757575" android:text="Size"/>
+            </LinearLayout>
+            <Button android:id="@+id/btnAddToCart" android:layout_width="match_parent" android:layout_height="36dp" android:layout_marginTop="8dp" android:text="Add to Cart" android:textSize="12sp" android:textAllCaps="false" style="@style/Widget.MaterialComponents.Button"/>
+        </LinearLayout>
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

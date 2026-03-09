@@ -1,0 +1,4 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/navBrowse" android:icon="@android:drawable/ic_menu_search" android:title="Browse"/>
+    <item android:id="@+id/navCart" android:icon="@android:drawable/ic_menu_add" android:title="Cart"/>
+</menu>
