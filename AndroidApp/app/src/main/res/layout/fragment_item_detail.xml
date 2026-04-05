@@ -18,7 +18,25 @@
                 <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#E0E0E0" android:layout_marginTop="12dp" android:layout_marginBottom="8dp"/>
                 <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Description" android:textSize="15sp" android:textStyle="bold"/>
                 <TextView android:id="@+id/tvDetailDescription" android:layout_width="match_parent" android:layout_height="wrap_content" android:textSize="14sp" android:layout_marginTop="4dp" android:text=""/>
-                <Button android:id="@+id/btnDetailAddToCart" android:layout_width="match_parent" android:layout_height="52dp" android:layout_marginTop="16dp" android:text="Add to Cart" android:textAllCaps="false" android:textSize="16sp" style="@style/Widget.MaterialComponents.Button"/>
+                <Button
+                    android:id="@+id/btnDetailAddToCart"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:layout_marginTop="16dp"
+                    android:text="Add to Cart"
+                    android:textAllCaps="false"
+                    android:textSize="16sp"
+                    style="@style/Widget.MaterialComponents.Button"/>
+                <Button
+                    android:id="@+id/btnSaveToFavorites"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:layout_marginTop="8dp"
+                    android:text="♡  Save to Favorites"
+                    android:textAllCaps="false"
+                    android:textSize="16sp"
+                    android:backgroundTint="#E91E63"
+                    style="@style/Widget.MaterialComponents.Button"/>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
     </LinearLayout>

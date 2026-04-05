@@ -6,6 +6,8 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.campuscloset.gsu.ui.browse.BrowseFragment
 import com.campuscloset.gsu.ui.cart.CartFragment
+import com.campuscloset.gsu.ui.favorites.FavoritesFragment
+import com.campuscloset.gsu.ui.profile.ProfileFragment
 import com.campuscloset.gsu.viewmodel.CartViewModel
 import com.google.android.material.badge.BadgeDrawable
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -52,9 +54,21 @@ class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListen
                     .commit()
                 true
             }
+            R.id.navFavorites -> {
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragmentContainer, FavoritesFragment())
+                    .commit()
+                true
+            }
             R.id.navCart -> {
                 supportFragmentManager.beginTransaction()
                     .replace(R.id.fragmentContainer, CartFragment())
+                    .commit()
+                true
+            }
+            R.id.navProfile -> {
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragmentContainer, ProfileFragment())
                     .commit()
                 true
             }

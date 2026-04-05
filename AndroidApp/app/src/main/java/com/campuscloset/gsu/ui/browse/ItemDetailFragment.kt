@@ -16,11 +16,13 @@ import com.campuscloset.gsu.R
 import com.campuscloset.gsu.utils.SessionManager
 import com.campuscloset.gsu.viewmodel.BrowseViewModel
 import com.campuscloset.gsu.viewmodel.CartViewModel
+import com.campuscloset.gsu.viewmodel.FavoritesViewModel
 
 class ItemDetailFragment : Fragment() {
 
     private val browseViewModel: BrowseViewModel by activityViewModels()
     private val cartViewModel: CartViewModel by activityViewModels()
+    private val favoritesViewModel: FavoritesViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,12 +41,14 @@ class ItemDetailFragment : Fragment() {
         val tvCategory: TextView = view.findViewById(R.id.tvDetailCategory)
         val tvDescription: TextView = view.findViewById(R.id.tvDetailDescription)
         val btnAddToCart: Button = view.findViewById(R.id.btnDetailAddToCart)
+        val btnSaveToFavorites: Button = view.findViewById(R.id.btnSaveToFavorites)
         val btnBack: ImageButton = view.findViewById(R.id.btnBack)
 
         btnBack.setOnClickListener { parentFragmentManager.popBackStack() }
 
         browseViewModel.selectedItem.observe(viewLifecycleOwner) { item ->
             item ?: return@observe
+
             tvTitle.text = item.title
             tvPrice.text = item.formattedPrice
             tvSeller.text = "Sold by: ${item.seller?.name ?: "Unknown"}"
@@ -62,6 +66,12 @@ class ItemDetailFragment : Fragment() {
             btnAddToCart.setOnClickListener {
                 val userId = SessionManager.getUserId(requireContext())
                 cartViewModel.addToCart(userId, item.itemId, item.title)
+            }
+
+            btnSaveToFavorites.setOnClickListener {
+                val userId = SessionManager.getUserId(requireContext())
+                favoritesViewModel.toggleFavorite(requireContext(), item.itemId)
+                Toast.makeText(requireContext(), "Saved to Favorites! ♡", Toast.LENGTH_SHORT).show()
             }
         }
 

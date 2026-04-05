@@ -7,10 +7,9 @@ import com.campuscloset.gsu.models.Favorite
 import com.campuscloset.gsu.models.Item
 import retrofit2.Response
 import retrofit2.http.*
+import com.campuscloset.gsu.network.CreateListingRequest
 
 interface SupabaseApi {
-
-    // ── EXISTING Sprint 2 methods ─────────────────────────────────────────────
 
     @GET("users")
     suspend fun getUsersByEmail(
@@ -35,8 +34,6 @@ interface SupabaseApi {
         @Query("select") select: String = "*"
     ): List<UserDto>
 
-    // ── Sprint 3: Items (Browse) ──────────────────────────────────────────────
-
     @GET("items")
     suspend fun getItems(
         @Query("status") status: String = "eq.AVAILABLE",
@@ -51,14 +48,10 @@ interface SupabaseApi {
         @Query("select") select: String = "*,item_images(*),users(name),categories(name)"
     ): Response<List<Item>>
 
-    // ── Sprint 3: Categories ──────────────────────────────────────────────────
-
     @GET("categories")
     suspend fun getCategories(
         @Query("select") select: String = "*"
     ): Response<List<Category>>
-
-    // ── Sprint 3: Cart ────────────────────────────────────────────────────────
 
     @GET("cart_items")
     suspend fun getCartItems(
@@ -76,8 +69,6 @@ interface SupabaseApi {
     @DELETE("cart_items")
     suspend fun clearCart(@Query("user_id") userId: String): Response<Unit>
 
-    // ── Sprint 3: Favorites ───────────────────────────────────────────────────
-
     @GET("favorites")
     suspend fun getFavorites(
         @Query("user_id") userId: String,
@@ -86,12 +77,23 @@ interface SupabaseApi {
 
     @Headers("Prefer: return=representation")
     @POST("favorites")
-    suspend fun addFavorite(@Body body: Map<String, Any>): Response<List<Favorite>>
+    suspend fun addFavorite(@Body body: FavoriteRequest): Response<List<Favorite>>
 
     @DELETE("favorites")
     suspend fun removeFavorite(
         @Query("user_id") userId: String,
         @Query("item_id") itemId: String
     ): Response<Unit>
+
+    // ── Sprint 4: Create Listing ──────────────────────────────────────────────
+
+    @Headers("Prefer: return=representation")
+    @POST("items")
+    suspend fun createListing(@Body body: CreateListingRequest): Response<List<Item>>
+
+    @Headers("Prefer: return=representation")
+    @POST("item_images")
+    suspend fun addItemImage(@Body body: Map<String, Any>): Response<Unit>
+
 
 }
