@@ -69,7 +69,6 @@ class ItemDetailFragment : Fragment() {
             }
 
             btnSaveToFavorites.setOnClickListener {
-                val userId = SessionManager.getUserId(requireContext())
                 favoritesViewModel.toggleFavorite(requireContext(), item.itemId)
                 Toast.makeText(requireContext(), "Saved to Favorites! ♡", Toast.LENGTH_SHORT).show()
             }
