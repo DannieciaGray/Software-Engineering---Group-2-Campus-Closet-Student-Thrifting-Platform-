@@ -109,6 +109,7 @@ The project follows a sprint-based model:
 
 Future Sprints: Marketplace features, item listings, transaction flows
 
+## DEMO OUR APPLICATION HERE: https://appetize.io/app/b_3a7sfveix5knujqhmzou6cab4u
 👥 Team
 
 Software Engineering Project
